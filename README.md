@@ -1,4 +1,4 @@
-Baby LLaMA2 Pretraining + Data Pipeline
+# Baby LLaMA2 Pretraining + Data Pipeline
 
 ## Tasks Completed
 
