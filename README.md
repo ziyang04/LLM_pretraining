@@ -1,39 +1,6 @@
-# COMP4901B Homework 1 — Baby LLaMA2 Pretraining + Data Pipeline
+Baby LLaMA2 Pretraining + Data Pipeline
 
-**<span style="color: red;">Due Date: 2025-10-08 23:59:59</span>**
-
-**Full score: 100 points.**
-
-This repository contains the starter code and tooling for Homework 1. You will:
-- Build a small-scale data preprocessing pipeline over a Common Crawl WARC shard dataset and a toy topic dataset for pretraining language models.
-- Implement core LLaMA2 components and pretrain a 42M‑parameter model on the BabyLM corpora.
-- Implement and run text generation (temperature sampling) from the language model and analyze outputs.
-
-You can either use your own laptop/machine if they have GPUs or use free Google Colab ([Getting Started With Google Colab: A Beginners Guide](https://www.marqo.ai/blog/getting-started-with-google-colab-a-beginners-guide).) to perform the experiments.
-
-This writeup is organized as follows:
-- [Rules](#rules) is the base rule
-- [Your Tasks](#your-tasks) is the main part and contain all the tasks you should complete for this homework
-- [Setup](#setup) is the basic setup for this codebase
-- [Running the Pipelines](#running-the-pipelines) is the detailed instructions for using the code
-- [Important Notes](#important-notes) are some notes about using the code
-- [Submission](#submission) contains instructions on how to submit your homework
-- [Quick Reference](#quick-reference)
-- [Repo Structure](#repo-structure)
-- [Troubleshooting](#troubleshooting) are some helpful tips. You are welcome to ask questions on Canvas as well.
-
-## Rules
-Detailed course logistics is at [here](https://docs.google.com/document/d/1mWm_TYYQpD3NpJISlFQGurBIXxWjizEc1zVffIDhiXU/edit?usp=sharing). 
-
-1. You need to work on the homework independently, without collaborating with other humans.
-2. You are allowed to collaborate with other AIs. Actually you are encouraged to use AI tools, because this codebase may involve some parameters or tools that you are not familiar with -- and we certainly cannot teach everything during the lectures. Generally AI tools can help a lot explaining them.
-3. As noted in the logistics, each student will have a total of three free late (calendar) days to use for homeworks. Once these late days are exhausted, any assignments turned in late will be penalized 20% per late day. However, no assignment will be accepted more than three days after its due date.
-4. For questions about his homework, please post on the Canvas 
-
-Honor code violation will be directly cause failing the course.
-
-
-## Your Tasks
+## Tasks Completed
 
 ### 0. (5 Points) Data download 
 - Run `./download_data.sh` from the repo root to fetch both Common Crawl files (WARC/WET/WAT) and the BabyLM datasets.
@@ -229,27 +196,6 @@ Install the running env using
 - Paths and outputs
   - Keep generated artifacts in their producing directory (e.g., cleaned text in `data_preprocess/`, token bins under `<split>/tokenized`).
 
-
-## Submission
-
-Submit a zip of the codebase (only the `assignment1` directory) and a PDF report to Canvas. Your PDF should include your full name, student ID, and your UST email. For the contents:
-- Part 1: WARC filtering and topic deduplication
-  - Command used.
-  - Number of records processed and passed; number after deduplication.
-  - Description of your cleaning/heuristic/English detection logic.
-- Part 2: Pretraining
-  - Commands (either `run_babylm.sh` or the equivalent `python` command line).
-  - Training configuration (GPU/CPU, block size, batch size, micro batch size, LR, warmup, total steps/epochs).
-  - Training loss curve (per‑token loss vs. steps) and any validation curves.
-  - Notes on stability and any changes you made to save memory or resume.
-- Part 3: Generation
-  - Command used and the checkpoint path.
-  - Generated outputs (`temp=0.0` and `temp=0.5`) from both your trained model and our provided model .
-  - Your explanation of which is better and why (coherence vs. diversity; effect of temperature and top‑k).
-
-Also include:
-- Any edits you made to `run_babylm.sh` (parameters and rationale).
-
 ## Quick Reference
 
 - Download data: `./download_data.sh`
@@ -263,13 +209,3 @@ Also include:
 - `data_preprocess/`: WARC/topic cleaners and helpers. Keep outputs here.
 - `llama_training/`: LLaMA model, optimizer, training scripts, tokenizer, configs, and BabyLM data.
 - Root: zipped raw archives (if any), this README, and `download_data.sh`.
-
-
-## Troubleshooting
-
-- If you want to understand the actual variables and inputs to the function during runtime (e.g., what is the size of the tensor) to help your implementation, the best practice is to use [pdb](https://docs.python.org/3/library/pdb.html) to set breakpoints or simply print out the variables.
-- “No pretraining sequences available” — Ensure your `block_size` is not larger than the number of tokens per file and that `tokenized/metadata.json` exists. Delete or pass `--overwrite_tokenized` to rebuild if needed.
-- CUDA OOM — Lower `--micro_batch_size` and/or `--block_size`.
-- Slow tokenization — Use `--tokenized_dir` and reuse caches; only retokenize when text changes.
-- Checkpoint not loading — Verify the path to `.pt` is correct and was saved by this codebase. For HF, download the actual `.pt` file locally.
-- More about Google Colab: [Getting Started With Google Colab: A Beginners Guide](https://www.marqo.ai/blog/getting-started-with-google-colab-a-beginners-guide).
