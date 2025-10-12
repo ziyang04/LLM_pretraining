@@ -209,3 +209,6 @@ Install the running env using
 - `data_preprocess/`: WARC/topic cleaners and helpers. Keep outputs here.
 - `llama_training/`: LLaMA model, optimizer, training scripts, tokenizer, configs, and BabyLM data.
 - Root: zipped raw archives (if any), this README, and `download_data.sh`.
+
+## Acknowledgments
+This project was developed as part of the COMP4901B course at the Hong Kong University of Science and Technology (HKUST) in Fall 2025. Special thanks to the teaching team for their guidance and support.
