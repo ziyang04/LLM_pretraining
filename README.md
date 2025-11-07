@@ -2,23 +2,20 @@
 
 ## Tasks Completed
 
-### 0. (5 Points) Data download 
+### 0. Data download 
 - Run `./download_data.sh` from the repo root to fetch both Common Crawl files (WARC/WET/WAT) and the BabyLM datasets.
 - The script writes CC files into `data_preprocess/` and BabyLM into `llama_training/`.
 
-### 1. (15 points) Part 1 — Data preprocessing (data_preprocess/) 
-(10 pts) 2.1. Implement the TODOs in `data_preprocess/homework.py` (you may refer to the dataset in 2.2 below to understand what the data to be preprocessed looks like):
+### 1. Part 1 — Data preprocessing (data_preprocess/) 
+2.1. Implement the TODOs in `data_preprocess/homework.py` (you may refer to the dataset in 2.2 below to understand what the data to be preprocessed looks like):
   - `html_to_text`, `replace_pii`, `clean_text`, `heuristic_quality_filter`, `is_english_text`, `deduplicate_texts`.
   
-(5 pts) 2.2. From `data_preprocess/`, run the pipeline to filter the WARC dump and deduplicate the topic dataset:
+2.2. From `data_preprocess/`, run the pipeline to filter the WARC dump and deduplicate the topic dataset:
   - `cd data_preprocess`
   - `python homework.py --fname data.warc --output cleaned_test.txt --dfname topic_dataset.json`
-- Report (paste into the PDF):
-  - Number of WARC records processed and the number that pass all filters.
-  - Number of topic dataset items after deduplication.
 
-### 2. (40 points) Part 2 — LLaMA2 pretraining (llama_training/)
-(20pts) 2.1 Fill the following TODO items:
+### 2. Part 2 — LLaMA2 pretraining (llama_training/)
+2.1 Fill the following TODO items:
   - The TODO in `Attention` class in `llama_training/llama.py`,
   - TODO in `llama_training/run_llama.py` (warmup LR scheduler),
 
@@ -51,16 +48,13 @@ Learning Rate
 3. **Common in transformer training**: Essential for training large language models effectively
 
 
-(20pts) 2.2 Run the BabyLM pretraining pipeline. A reference command is provided in `llama_training/run_babylm.sh`; feel free to edit it to fit your environment. You can refer [here](#pretraining-part-2) for the meaning of the arguments in the script.
+2.2 Run the BabyLM pretraining pipeline. A reference command is provided in `llama_training/run_babylm.sh`; feel free to edit it to fit your environment. You can refer [here](#pretraining-part-2) for the meaning of the arguments in the script.
 - Train for at least 200–1000 optimizer steps. On Colab, expect roughly 40–200 minutes depending on settings.
-- Report (paste into the PDF):
-  - Training setup (GPU/CPU, effective batch size, sequence length, LR, warmup, steps).
-  - Loss curve (per‑token loss vs. updates). A screenshot from your console or wandb is fine.
 
 **Note on Logging and Visualization**: The training script will automatically attempt to use [Weights & Biases (wandb)](https://wandb.ai) to log and plot training statistics including losses, learning rates, and validation metrics. This provides beautiful real-time dashboards and automatic plot generation. However, **wandb is completely optional** - if you don't set up a wandb account or API key, the training script will gracefully skip wandb logging and continue working normally. All metrics will still be printed to the console. If you choose not to use wandb, you may need to manually create loss curve plots from the console output for your report. If you want to try using wandb, you can check [wandb quickstart](https://docs.wandb.ai/quickstart) and [Important Notes](#important-notes) for more details.
 
-### 3. (40 points) Part 3 — Generation & analysis
-(20pts) 3.1 Implement `generate()` in `llama_training/llama.py` (greedy for `temp=0.0`, temperature sampling and top‑k for `temp>0`).
+### 3. Part 3 — Generation & analysis
+3.1 Implement `generate()` in `llama_training/llama.py` (greedy for `temp=0.0`, temperature sampling and top‑k for `temp>0`).
 
 **Supplementary for problem 3.1: Background on different sampling methods**
 
@@ -85,16 +79,12 @@ Different sampling strategies in language models include:
 
 
 
-(20pts) 3.2 Generate using two temperatures `temp=0.0` and `temp=0.5` with temperate sampling and compare:
+3.2 Generate using two temperatures `temp=0.0` and `temp=0.5` with temperate sampling and compare:
   - `cd llama_training`
   - `python run_llama.py --pretrained-model-path YOUR_TRAINED_MODEL.pt --option generate`
   - By default this writes `generated-sentence-temp-0.txt` and `generated-sentence-temp-1.txt`.
   - Also try generating with our provided fully trained model:
   - https://huggingface.co/yuzhen17/llama2-42M-babylm (download the checkpoint locally and pass its path to `--pretrained-model-path`).
-- Report (paste into the PDF):
-  - (10pts) Generated outputs for `temp=0.0` and `temp=0.5` from both your trained model and our provided model.
-  - (10pts) Explain which temperate is better and why (e.g., diversity vs. coherence).
-
 
 ## Setup
 
